@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🌸 LUMINARA 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playfair+Display:wght@400;700;900&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'Tajawal','Amiri',serif;
+  background: linear-gradient(135deg, #FAF0E6 0%, #F5E6D3 50%, #E8D5B7 100%);
+  min-height:100vh;
+  color:#3a2418;
+  position:relative;
+  overflow-x:hidden;
+}
+
+/* خلفية زخرفية */
+body::before {
+  content:'';
+  position:fixed; top:0; left:0; right:0; bottom:0;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(212,175,55,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(114,47,55,0.06) 0%, transparent 50%);
+  pointer-events:none; z-index:0;
+}
+
+/* الصفحات */
+.page { 
+  display:none; 
+  min-height:100vh; 
+  position:relative; 
+  z-index:1;
+  width:100%;
+}
+.page.active { 
+  display:block; 
+  animation: pageIn 0.5s ease; 
+}
+@keyframes pageIn { 
+  from{opacity:0;} 
+  to{opacity:1;} 
+}
+
+/* ===== صفحة الترحيب ===== */
+#welcomePage {
+  display:none;
+  flex-direction:column; 
+  align-items:center; 
+  justify-content:center;
+  min-height:100vh; 
+  padding:20px; 
+  text-align:center;
+  background: radial-gradient(ellipse at center bottom, #2d1810 0%, #1a0f0a 70%, #0a0604 100%);
+  position:relative; 
+  overflow:hidden;
+}
+#welcomePage.active { display:flex; }
+
+.stars-bg { position:absolute; top:0; left:0; right:0; bottom:0; overflow:hidden; }
+.star {
+  position:absolute; width:2px; height:2px; background:#fff; border-radius:50%;
+  animation: twinkle 3s infinite;
+}
+@keyframes twinkle { 0%,100%{opacity:0.3;} 50%{opacity:1;} }
+
+.minaret-container { position:relative; width:200px; height:400px; margin-bottom:30px; }
+.minaret {
+  position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+  width:80px; height:300px;
+  background: linear-gradient(90deg, #8B6F47 0%, #C9A961 30%, #E8D5A8 50%, #C9A961 70%, #8B6F47 100%);
+  clip-path: polygon(30% 0%, 70% 0%, 85% 100%, 15% 100%);
+  box-shadow: inset -10px 0 20px rgba(0,0,0,0.3);
+}
+.minaret::before {
+  content:''; position:absolute; top:-40px; left:50%; transform:translateX(-50%);
+  width:50px; height:40px;
+  background: linear-gradient(90deg, #8B6F47, #C9A961, #8B6F47);
+  border-radius: 50% 50% 20% 20%;
+}
+.minaret::after {
+  content:''; position:absolute; top:-60px; left:50%; transform:translateX(-50%);
+  width:8px; height:25px; background:#C9A961;
+}
+.minaret-top {
+  position:absolute; top:-75px; left:50%; transform:translateX(-50%);
+  width:14px; height:14px; background:#D4AF37; border-radius:50%;
+  box-shadow: 0 0 20px #D4AF37, 0 0 40px #D4AF37;
+  animation: glow 2s ease-in-out infinite;
+}
+@keyframes glow {
+  0%,100% { box-shadow: 0 0 20px #D4AF37, 0 0 40px #D4AF37; transform:translateX(-50%) scale(1); }
+  50% { box-shadow: 0 0 30px #FFD700, 0 0 60px #FFD700, 0 0 80px #FFA500; transform:translateX(-50%) scale(1.2); }
+}
+
+.light-beam {
+  position:absolute; top:-70px; left:50%; transform:translateX(-50%);
+  width:300px; height:300px;
+  background: radial-gradient(circle, rgba(255,215,0,0.4) 0%, rgba(255,215,0,0.1) 30%, transparent 70%);
+  border-radius:50%;
+  animation: pulse 3s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes pulse {
+  0%,100% { opacity:0.6; transform:translateX(-50%) scale(1); }
+  50% { opacity:1; transform:translateX(-50%) scale(1.3); }
+}
+.light-rays {
+  position:absolute; top:-70px; left:50%; transform:translateX(-50%);
+  width:400px; height:400px;
+  pointer-events:none;
+}
+.ray {
+  position:absolute; top:50%; left:50%;
+  width:2px; height:150px;
+  background: linear-gradient(to top, rgba(255,215,0,0.6), transparent);
+  transform-origin: bottom center;
+  animation: rayRotate 8s linear infinite;
+}
+@keyframes rayRotate { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+
+.welcome-title {
+  font-family:'Playfair Display',serif;
+  font-size: 48px; font-weight:900;
+  color:#D4AF37;
+  text-shadow: 0 0 20px rgba(212,175,55,0.5), 2px 2px 4px rgba(0,0,0,0.5);
+  margin-bottom:10px; letter-spacing:4px;
+  animation: titleGlow 2s ease-in-out infinite alternate;
+}
+@keyframes titleGlow {
+  from { text-shadow: 0 0 20px rgba(212,175,55,0.5), 2px 2px 4px rgba(0,0,0,0.5); }
+  to { text-shadow: 0 0 30px rgba(255,215,0,0.8), 0 0 40px rgba(212,175,55,0.4), 2px 2px 4px rgba(0,0,0,0.5); }
+}
+.welcome-subtitle {
+  font-family:'Amiri',serif;
+  font-size: 22px; color:#E8D5A8;
+  margin-bottom:40px; font-style:italic;
+}
+.welcome-desc {
+  color:#C9A961; font-size:16px; margin-bottom:40px;
+  max-width:300px; line-height:1.8;
+}
+
+.start-btn {
+  background: linear-gradient(135deg, #722F37 0%, #8B3A42 50%, #722F37 100%);
+  color:#F5E6D3; border:2px solid #D4AF37;
+  padding:18px 50px; font-size:20px; font-weight:700;
+  border-radius:50px; cursor:pointer;
+  font-family:'Tajawal',sans-serif;
+  box-shadow: 0 5px 20px rgba(114,47,55,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+  transition: all 0.3s; position:relative; overflow:hidden;
+}
+.start-btn::before {
+  content:''; position:absolute; top:0; left:-100%; width:100%; height:100%;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.3), transparent);
+  transition: left 0.5s;
+}
+.start-btn:hover::before { left:100%; }
+.start-btn:hover { transform:translateY(-3px); box-shadow: 0 8px 25px rgba(212,175,55,0.5); }
+.start-btn:active { transform:translateY(-1px); }
+
+/* ===== صفحة المحاضرات ===== */
+#lecturesPage { padding: 20px 15px 80px; }
+.page-header {
+  text-align:center; padding: 20px 10px 30px;
+  border-bottom: 2px solid rgba(212,175,55,0.3);
+  margin-bottom: 25px;
+}
+.page-header h1 {
+  font-family:'Playfair Display',serif;
+  color:#722F37; font-size:28px; margin-bottom:8px;
+}
+.page-header .ornament {
+  color:#D4AF37; font-size:20px; letter-spacing:10px;
+}
+
+.lecture-card {
+  background: linear-gradient(135deg, #FFFFFF 0%, #FAF0E6 100%);
+  border: 2px solid #D4AF37;
+  border-radius: 15px;
+  padding: 25px 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(114,47,55,0.15);
+  transition: all 0.3s;
+}
+.lecture-card::before {
+  content:''; position:absolute; top:0; right:0;
+  width:6px; height:100%;
+  background: linear-gradient(180deg, #D4AF37, #722F37);
+}
+.lecture-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(114,47,55,0.25);
+  border-color: #722F37;
+}
+.lecture-card:active { transform: translateY(-1px); }
+.lecture-number {
+  display:inline-block;
+  background: linear-gradient(135deg, #722F37, #8B3A42);
+  color:#D4AF37; width:40px; height:40px;
+  border-radius:50%; text-align:center; line-height:40px;
+  font-weight:700; font-size:18px;
+  margin-left:15px; vertical-align:middle;
+  border:2px solid #D4AF37;
+}
+.lecture-name {
+  display:inline-block; vertical-align:middle;
+  font-size:18px; font-weight:700; color:#3a2418;
+  font-family:'Amiri',serif;
+}
+.lecture-arrow {
+  float:left; color:#D4AF37; font-size:24px;
+  margin-top:8px;
+}
+
+/* ===== صفحة الأسئلة ===== */
+#quizPage { padding:0 0 80px; }
+.quiz-header {
+  position: sticky; top:0; z-index:100;
+  background: linear-gradient(135deg, #722F37 0%, #8B3A42 100%);
+  color:#F5E6D3; padding: 12px 15px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  border-bottom: 2px solid #D4AF37;
+}
+.quiz-title {
+  font-family:'Amiri',serif;
+  font-size:18px; text-align:center; margin-bottom:10px;
+  color:#D4AF37;
+}
+.stats-bar {
+  display:flex; justify-content:space-around;
+  background: rgba(0,0,0,0.2);
+  border-radius:10px; padding:8px 5px;
+  font-size:13px;
+}
+.stat { text-align:center; flex:1; }
+.stat-label { font-size:11px; opacity:0.8; display:block; }
+.stat-value { font-size:16px; font-weight:700; color:#D4AF37; display:block; margin-top:2px; }
+
+.back-btn {
+  position:fixed; bottom:20px; right:20px;
+  background: linear-gradient(135deg, #722F37, #8B3A42);
+  color:#D4AF37; border:2px solid #D4AF37;
+  width:55px; height:55px; border-radius:50%;
+  font-size:24px; cursor:pointer; z-index:200;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  transition: all 0.3s;
+}
+.back-btn:hover { transform:scale(1.1); }
+
+.question-card {
+  background: #FFFFFF;
+  border-right: 5px solid #D4AF37;
+  border-radius: 12px;
+  padding: 18px 15px;
+  margin: 15px;
+  box-shadow: 0 3px 10px rgba(114,47,55,0.1);
+  position:relative;
+}
+.question-card.answered-correct {
+  border-right-color: #2E7D32;
+  background: linear-gradient(135deg, #FFFFFF 0%, #F1F8E9 100%);
+}
+.question-card.answered-wrong {
+  border-right-color: #C62828;
+  background: linear-gradient(135deg, #FFFFFF 0%, #FFEBEE 100%);
+}
+.q-number {
+  display:inline-block;
+  background: linear-gradient(135deg, #D4AF37, #B8941F);
+  color:#3a2418; width:30px; height:30px;
+  border-radius:50%; text-align:center; line-height:30px;
+  font-weight:700; font-size:14px;
+  margin-left:10px;
+}
+.q-text {
+  display:inline; font-size:15px; font-weight:700; color:#3a2418;
+  line-height:1.7;
+}
+.options-list { list-style:none; margin-top:12px; }
+.option {
+  background: #FAF0E6;
+  border: 2px solid #E8D5B7;
+  border-radius: 10px;
+  padding: 12px 15px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #3a2418;
+  transition: all 0.2s;
+  position:relative;
+}
+.option:hover { background:#F5E6D3; border-color:#D4AF37; }
+.option:active { transform:scale(0.98); }
+.option.correct {
+  background: linear-gradient(135deg, #C8E6C9, #A5D6A7);
+  border-color: #2E7D32; color:#1B5E20; font-weight:700;
+}
+.option.wrong {
+  background: linear-gradient(135deg, #FFCDD2, #EF9A9A);
+  border-color: #C62828; color:#B71C1C;
+}
+.option.disabled { pointer-events:none; opacity:0.85; }
+
+@keyframes shake {
+  0%,100%{transform:translateX(0);}
+  10%,30%,50%,70%,90%{transform:translateX(-5px);}
+  20%,40%,60%,80%{transform:translateX(5px);}
+}
+.shake { animation: shake 0.5s; }
+
+.celebration {
+  position:fixed; top:0; left:0; right:0; bottom:0;
+  pointer-events:none; z-index:500;
+  overflow:hidden;
+}
+.celebration-item {
+  position:absolute;
+  font-size:28px;
+  animation: fallDown 3s ease-in forwards;
+  opacity:0;
+}
+@keyframes fallDown {
+  0% { transform: translateY(-50px) rotate(0deg); opacity:0; }
+  10% { opacity:1; }
+  100% { transform: translateY(100vh) rotate(360deg); opacity:0; }
+}
+
+.results-btn {
+  display:block; margin: 30px auto;
+  background: linear-gradient(135deg, #D4AF37 0%, #B8941F 100%);
+  color:#3a2418; border:none;
+  padding: 18px 40px; font-size:18px; font-weight:700;
+  border-radius:50px; cursor:pointer;
+  font-family:'Tajawal',sans-serif;
+  box-shadow: 0 5px 20px rgba(212,175,55,0.4);
+  transition: all 0.3s;
+}
+.results-btn:hover { transform:translateY(-3px); box-shadow: 0 8px 25px rgba(212,175,55,0.6); }
+
+#resultsPage { padding: 30px 20px 80px; text-align:center; }
+.results-circle {
+  width:200px; height:200px; margin: 30px auto;
+  border-radius:50%;
+  background: conic-gradient(#D4AF37 var(--p,0%), #E8D5B7 0%);
+  display:flex; align-items:center; justify-content:center;
+  position:relative;
+  box-shadow: 0 10px 30px rgba(114,47,55,0.2);
+}
+.results-circle::before {
+  content:''; position:absolute;
+  width:170px; height:170px; border-radius:50%;
+  background:#FAF0E6;
+}
+.results-score {
+  position:relative; z-index:1;
+  font-family:'Playfair Display',serif;
+  font-size:48px; font-weight:900; color:#722F37;
+}
+.results-message {
+  font-family:'Amiri',serif;
+  font-size:22px; color:#3a2418;
+  margin: 20px 0; line-height:1.8;
+  padding: 0 10px;
+}
+.results-details {
+  background:#FFFFFF; border-radius:15px;
+  padding:20px; margin: 20px 0;
+  border:2px solid #D4AF37;
+}
+.detail-row {
+  display:flex; justify-content:space-between;
+  padding:10px 0; border-bottom:1px dashed #E8D5B7;
+  font-size:16px;
+}
+.detail-row:last-child { border-bottom:none; }
+.detail-label { color:#722F37; font-weight:700; }
+.detail-value { color:#3a2418; font-weight:700; }
+
+.signature {
+  position:fixed; bottom:0; left:0; right:0;
+  background: linear-gradient(135deg, #722F37, #8B3A42);
+  color:#D4AF37; text-align:center;
+  padding: 12px; font-family:'Playfair Display',serif;
+  font-size:16px; font-weight:700;
+  border-top: 2px solid #D4AF37;
+  z-index:150;
+  letter-spacing:2px;
+  box-shadow: 0 -3px 10px rgba(0,0,0,0.2);
+}
+#welcomePage .signature, #lecturesPage .signature { 
+  position:relative; margin-top:40px; 
+  border-radius:10px 10px 0 0;
+}
+</style>
+</head>
+<body>
+
+<!-- صفحة الترحيب -->
+<div id="welcomePage" class="page active">
+  <div class="stars-bg" id="starsBg"></div>
+  <div class="minaret-container">
+    <div class="light-rays" id="lightRays"></div>
+    <div class="light-beam"></div>
+    <div class="minaret">
+      <div class="minaret-top"></div>
+    </div>
+  </div>
+  <div class="welcome-title">LUMINARA</div>
+  <div class="welcome-subtitle">✦    ✦</div>
+  <div class="welcome-desc">
+    أهلاً بك  <br>
+    
+  </div>
+  <button class="start-btn" onclick="goToLectures()">
+    ✦ ابدأ الرحلة ✦
+  </button>
+  <div class="signature">إعداد الــ 🌸 LUMINARA 🌸</div>
+</div>
+
+<!-- صفحة المحاضرات -->
+<div id="lecturesPage" class="page">
+  <div class="page-header">
+    <h1>📚 المحاضرات</h1>
+    <div class="ornament">✦ ❖ ✦</div>
+  </div>
+  <div class="lecture-card" onclick="startQuiz(0)">
+    <span class="lecture-number">1</span>
+    <span class="lecture-name">High Risk Neonate</span>
+    <span class="lecture-arrow">◀</span>
+  </div>
+  <div class="lecture-card" onclick="startQuiz(1)">
+    <span class="lecture-number">2</span>
+    <span class="lecture-name">Blood Disorder in Children</span>
+    <span class="lecture-arrow">◀</span>
+  </div>
+  <div class="lecture-card" onclick="startQuiz(2)">
+    <span class="lecture-number">3</span>
+    <span class="lecture-name">Communicable Disease</span>
+    <span class="lecture-arrow">◀</span>
+  </div>
+  <div class="signature">  🌸 LUMINARA 🌸</div>
+</div>
+
+<!-- صفحة الأسئلة -->
+<div id="quizPage" class="page">
+  <div class="quiz-header">
+    <div class="quiz-title" id="quizTitle">المحاضرة</div>
+    <div class="stats-bar">
+      <div class="stat"><span class="stat-label">المتبقية</span><span class="stat-value" id="statRemaining">0</span></div>
+      <div class="stat"><span class="stat-label">✓ الصح</span><span class="stat-value" id="statCorrect">0</span></div>
+      <div class="stat"><span class="stat-label">✗ الخطأ</span><span class="stat-value" id="statWrong">0</span></div>
+    </div>
+  </div>
+  <div id="questionsContainer"></div>
+  <button class="results-btn" id="resultsBtn" style="display:none;" onclick="showResults()">
+    ✦ اضغط لرؤية النتائج ✦
+  </button>
+  <button class="back-btn" onclick="goBack()">↩</button>
+  <div class="signature"> ـ 🌸 LUMINARA 🌸</div>
+</div>
+
+<!-- صفحة النتائج -->
+<div id="resultsPage" class="page">
+  <div class="page-header">
+    <h1>🏆 النتائج</h1>
+    <div class="ornament">✦ ❖ ✦</div>
+  </div>
+  <div class="results-circle" id="resultsCircle">
+    <div class="results-score" id="resultsScore">0%</div>
+  </div>
+  <div class="results-message" id="resultsMessage"></div>
+  <div class="results-details">
+    <div class="detail-row"><span class="detail-label">إجمالي الأسئلة</span><span class="detail-value" id="resTotal">0</span></div>
+    <div class="detail-row"><span class="detail-label">الإجابات الصحيحة</span><span class="detail-value" id="resCorrect">0</span></div>
+    <div class="detail-row"><span class="detail-label">الإجابات الخاطئة</span><span class="detail-value" id="resWrong">0</span></div>
+    <div class="detail-row"><span class="detail-label">النسبة المئوية</span><span class="detail-value" id="resPercent">0%</span></div>
+  </div>
+  <button class="results-btn" onclick="goBack()" style="background:linear-gradient(135deg,#722F37,#8B3A42); color:#D4AF37; border:2px solid #D4AF37;">
+    ↩ العودة للمحاضرات
+  </button>
+  <div class="signature">إعداد الــ 🌸 LUMINARA 🌸</div>
+</div>
+
+<div class="celebration" id="celebration"></div>
+
+<script>
+// ========== بيانات الأسئلة الكاملة ==========
+
+const highRiskQuestions = [
+  {q:"A newborn who has a greater than average chance of morbidity or mortality, regardless of gestational age or birth weight, is called:", options:["Low Birth Weight infant","Preterm neonate","High Risk Neonate","Normal neonate"], answer:2},
+  {q:"The Most Common Example For SGA (Small Gestational Age) is:", options:["MAS","IUGR","RDS","TTM"], answer:1},
+  {q:"Extremely low-birth-weight (ELBW) infant is defined as an infant whose birth weight is:", options:["Less than 2000 g","Less than 1500 g","Less than 1000 g","Less than 500 g"], answer:2},
+  {q:"Which term describes an infant whose birth weight is less than 2500 g regardless of gestational age?", options:["Appropriate-for-gestational-age infant","Large-for-gestational-age infant","Low-birth-weight infant","Small-for-gestational-age infant"], answer:2},
+  {q:"An infant whose birth weight is less than 1500 g is classified as:", options:["Extremely low-birth-weight infant","Very low-birth-weight infant","Low-birth-weight infant","Small-for-date infant"], answer:1},
+  {q:"Which term describes an infant whose weight falls between the 10th and 90th percentiles on intrauterine growth curves?", options:["Small-for-date infant","Large-for-gestational-age infant","Appropriate-for-gestational-age infant","Low-birth-weight infant"], answer:2},
+  {q:"An infant whose intrauterine growth was slowed and whose birth weight falls below the 10th percentile is called:", options:["Small-for-gestational-age infant","Appropriate-for-gestational-age infant","Large-for-gestational-age infant","Very low-birth-weight infant"], answer:0},
+  {q:"Large-for-gestational-age infants have birth weight:", options:["Between 10th–90th percentiles","Below 10th percentile","Above 90th percentile","Below 5th percentile"], answer:2},
+  {q:"An infant weighs 1300 g. This infant is classified as:", options:["Low-birth-weight infant","Very low-birth-weight infant","Extremely low-birth-weight infant","Small-for-gestational-age infant"], answer:1},
+  {q:"A newborn has a birth weight of 900 g. This newborn is considered:", options:["Very low-birth-weight infant","Extremely low-birth-weight infant","Low-birth-weight infant","Appropriate-for-gestational-age infant"], answer:1},
+  {q:"A neonate weighs 2200 g at birth. This infant is:", options:["Low-birth-weight infant","Very low-birth-weight infant","Appropriate-for-gestational-age infant","Large-for-gestational-age infant"], answer:0},
+  {q:"A newborn's birth weight is 3100 g, and this weight is between the 10th and 90th percentiles. The infant is:", options:["Small-for-gestational-age infant","Appropriate-for-gestational-age infant","Large-for-gestational-age infant","Very low-birth-weight infant"], answer:1},
+  {q:"An infant weighs 1800 g and his birth weight is below the 10th percentile. This infant is:", options:["Low-birth-weight infant","Small-for-gestational-age infant","Large-for-gestational-age infant","Extremely low-birth-weight infant"], answer:1},
+  {q:"A baby is born weighing 4200 g, and this weight is above the 90th percentile. This baby is:", options:["Small-for-date infant","Large-for-gestational-age infant","Appropriate-for-gestational-age infant","Low-birth-weight infant"], answer:1},
+  {q:"A preterm infant weighs 1450 g. This weight category is:", options:["Extremely low-birth-weight","Very low-birth-weight","Low-birth-weight","Large-for-gestational-age"], answer:1},
+  {q:"An infant's birth weight is 980 g. According to classification, this infant is:", options:["Low-birth-weight","Very low-birth-weight","Extremely low-birth-weight","Small-for-gestational-age"], answer:2},
+  {q:"A term infant weighs 2600 g, placing him between the 10th and 90th percentiles. He is:", options:["Appropriate-for-gestational-age infant","Small-for-date infant","Low-birth-weight infant","Very low-birth-weight infant"], answer:0},
+  {q:"A newborn weighs 1900 g but falls below the 10th percentile for gestational age. This infant is:", options:["Low-birth-weight infant","Small-for-gestational-age infant","Large-for-gestational-age infant","Appropriate-for-gestational-age infant"], answer:1},
+  {q:"A newborn is delivered at 35 weeks of gestation. This infant is:", options:["Full-term infant","Preterm infant","Late-preterm infant","Post-term infant"], answer:2},
+  {q:"A baby is born at 33 weeks of gestation. This baby is classified as:", options:["Preterm infant","Late-preterm infant","Full-term infant","Post-term infant"], answer:0},
+  {q:"An infant born at 39 weeks of gestation is considered:", options:["Late-preterm","Preterm","Full-term infant","Post-term"], answer:2},
+  {q:"A neonate delivered at 42 weeks exactly is classified as:", options:["Preterm infant","Full-term infant","Late-preterm infant","Post-term infant"], answer:1},
+  {q:"A newborn is delivered at 43 weeks of gestation. This is considered:", options:["Full-term infant","Preterm infant","Late-preterm infant","Post-term infant"], answer:3},
+  {q:"A baby is born at 36 weeks of gestation. This infant is:", options:["Full-term infant","Preterm infant","Late-preterm infant","Post-term infant"], answer:2},
+  {q:"An infant delivered at 27 weeks of gestation is:", options:["Post-term","Preterm infant","Late-preterm infant","Full-term"], answer:1},
+  {q:"A baby is born at 38 weeks and 2 days. This infant is:", options:["Preterm","Late-preterm","Full-term infant","Post-term infant"], answer:2},
+  {q:"A newborn delivered at 41 weeks of gestation is classified as:", options:["Post-term","Full-term infant","Preterm infant","Late-preterm infant"], answer:1},
+  {q:"An infant is born at 34 weeks of gestation. This infant is:", options:["Preterm","Late-preterm","Full-term","Post-term"], answer:1},
+  {q:"A baby is delivered at 37 weeks exactly. This infant is:", options:["Preterm infant","Full-term infant","Late-preterm infant","Post-term infant"], answer:1},
+  {q:"An infant is born at 40 weeks and 5 days. This baby is:", options:["Full-term infant","Late-preterm infant","Preterm infant","Post-term infant"], answer:0},
+  {q:"A newborn is delivered at 32 weeks. This infant is classified as:", options:["Late-preterm","Preterm infant","Full-term infant","Post-term infant"], answer:1},
+  {q:"A baby is born at 44 weeks of gestation. This infant is:", options:["Full-term","Late-preterm","Preterm","Post-term infant"], answer:3},
+  {q:"An infant delivered at 34 weeks and 6 days is:", options:["Full-term infant","Preterm infant","Late-preterm infant","Post-term infant"], answer:2},
+  {q:"A neonate born at 28 weeks is considered:", options:["Post-term","Late-preterm","Preterm infant","Full-term"], answer:2},
+  {q:"A baby is delivered at 38 weeks exactly, without complications. This infant is:", options:["Preterm","Late-preterm","Full-term","Post-term"], answer:2},
+  {q:"An infant born at 41 weeks and 6 days is:", options:["Full-term infant","Late-preterm infant","Preterm infant","Post-term infant"], answer:0},
+  {q:"A newborn is delivered at 30 weeks due to maternal complications. This infant is:", options:["Late-preterm","Full-term","Preterm infant","Post-term"], answer:2},
+  {q:"A baby is born at 35 weeks and 2 days. This infant is:", options:["Full-term infant","Late-preterm infant","Post-term infant","Preterm infant"], answer:1},
+  {q:"A mother delivered her baby at 36 weeks after experiencing premature rupture of membranes. The baby shows mild respiratory distress but stable vitals. The infant is classified as:", options:["Full-term infant","Preterm infant","Late-preterm infant","Post-term infant"], answer:2},
+  {q:"A neonate was born at 31 weeks due to maternal hypertension. The infant requires NICU admission. This baby is:", options:["Preterm infant","Full-term infant","Late-preterm infant","Post-term infant"], answer:0},
+  {q:"An infant born at 34 weeks of gestation is MOST accurately classified as:", options:["Preterm infant","Late-preterm infant","Full-term infant","Post-term infant"], answer:1},
+  {q:"A newborn delivered at 43 weeks presents with dry, peeling skin and long nails. The gestational age places him as:", options:["Full-term infant","Late-preterm infant","Post-term infant","Preterm infant"], answer:2},
+  {q:"A baby is delivered at 38 weeks, but he is small in size due to intrauterine growth restriction (IUGR). His gestational age category is:", options:["Preterm infant","Late-preterm infant","Full-term infant","Post-term infant"], answer:2},
+  {q:"A nurse is assessing a newborn delivered at 37 weeks. Which statement is TRUE?", options:["The infant is still considered preterm","The infant is considered late-preterm","The infant is considered full-term","The infant is considered post-term"], answer:2},
+  {q:"A baby is delivered at 35 weeks, but weighs 3900 g. What is the gestational age classification?", options:["Full-term","Late-preterm","Post-term","Preterm"], answer:1},
+  {q:"A newborn 34 weeks, 1800 g, moderately ill, expected to recover quickly, and not requiring subspecialty care.", options:["Level I","Level IIA","Level IIB","Level III"], answer:1},
+  {q:"A newborn 30 weeks, 1400 g, requiring CPAP and possibly mechanical ventilation for <24 hours.", options:["Level I","Level IIA","Level IIB","Level IIIA"], answer:2},
+  {q:"A newborn 27 weeks, 900 g, requiring high-frequency ventilation.", options:["Level IIA","Level IIB","Level IIIA","Level IIIB"], answer:3},
+  {q:"A term newborn, 3000 g, requiring only routine maternal-newborn care.", options:["Level I","Level IIA","Level IIB","Level III"], answer:0},
+  {q:"A newborn 29 weeks, 1100 g, requiring conventional mechanical ventilation only.", options:["Level IIB","Level IIIA","Level IIIB","Level IIIC"], answer:1},
+  {q:"A newborn with a severe congenital cardiac defect, requiring ECMO and cardiac surgery.", options:["Level IIIA","Level IIIB","Level IIIC","Level IIB"], answer:2},
+  {q:"Increase of RDS (HMD). 'hyaline membrane disease'... the most crucial treatment is:", options:["O2 (Oxygen therapy)","CPAP","SRD (Surfactant Replacement Dose)","IVF (Intravenous Fluids)"], answer:2},
+  {q:"Infant weighs 1300 g and is 5 days old. What is the incubator temperature?", options:["32.0°C","33.0°C","34.0°C","35.0°C"], answer:3},
+  {q:"Infant weighs 1200 g and is 10 days old. What is the incubator temperature?", options:["33.0°C","35.0°C","36.0°C","32.5°C"], answer:1},
+  {q:"Infant weighs 1800 g and is 15 days old. What is the incubator temperature?", options:["33.5°C","34.5°C","35.5°C","32.5°C"], answer:0},
+  {q:"Infant weighs 2300 g and is 5 days old. What is the incubator temperature?", options:["33.0°C","34.0°C","32.5°C","35.0°C"], answer:0},
+  {q:"Infant weighs 2800 g and is 10 days old. What is the incubator temperature?", options:["32.0°C","33.0°C","34.0°C","31.5°C"], answer:0},
+  {q:"Infant weighs 3200 g and is 5 days old. What is the incubator temperature?", options:["32.0°C","33.0°C","34.0°C","31.5°C"], answer:0},
+  {q:"Infant weighs 900 g and is 0 day old. What is the incubator temperature?", options:["35.5°C","34.5°C","36.0°C","33.5°C"], answer:0},
+  {q:"Infant weighs 1500 g and is 10 days old. What is the incubator temperature?", options:["32.5°C","33.5°C","34.5°C","35.0°C"], answer:1},
+  {q:"Infant weighs 2500 g and is 15 days old. What is the incubator temperature?", options:["31.0°C","32.0°C","33.0°C","34.0°C"], answer:0},
+  {q:"Infant weighs 1800 g on Day 0. What is the incubator temperature?", options:["35.0°C","34.0°C","33.5°C","36.0°C"], answer:0},
+  {q:"Infant 2000-2500 g at Day 5 should be set at 33.0°C.", options:["True","False"], answer:0},
+  {q:"Infant weighing 3000 g at Day 15 needs 32.0°C.", options:["True","False"], answer:1},
+  {q:"Lower birth weight infants require higher incubator temperature.", options:["True","False"], answer:0},
+  {q:"What is the first immediate action done after birth to prevent neonatal hypothermia?", options:["Early bathing","Skin-to-skin contact","Eye prophylaxis","Umbilical cord care"], answer:1},
+  {q:"Skin-to-skin contact helps the newborn mainly by:", options:["Increasing oxygen need","Increasing heat loss","Providing thermal protection","Delaying bonding"], answer:2},
+  {q:"Kangaroo Mother Care (KMC) includes which of the following?", options:["Incubator care only","Early skin-to-skin contact","Formula feeding","Delayed breastfeeding"], answer:1},
+  {q:"What is the first nursing action immediately after birth?", options:["Provide privacy","Assess Apgar score","Prevent hypothermia","Clean the umbilical cord"], answer:2},
+  {q:"The leading cause of early neonatal death is:", options:["Sepsis","Birth injury","Hypothermia","Respiratory distress"], answer:2},
+  {q:"Which therapy is most commonly used in the management of RDS (Hyaline Membrane Disease) in neonates?", options:["Oxygen therapy","SRT (Surfactant Replacement Therapy)","Antibiotics","Corticosteroids"], answer:1},
+  {q:"SRT (Surfactant Replacement Therapy) is used to:", options:["Reduce alveolar surface tension","Increase mucus production","Treat infections","Replace red blood cells"], answer:0},
+  {q:"Which infant is at highest risk for RDS (Hyaline Membrane Disease)?", options:["Full-term infant","Preterm infant","Infant with congenital heart disease","Infant with jaundice"], answer:1},
+  {q:"The main complication of untreated RDS is:", options:["Alveolar collapse","Pneumothorax","Bronchitis","Asthma"], answer:0},
+  {q:"Which type of respiratory sound is most commonly heard in infants with obstructive lung disease?", options:["Inspiratory","Expiratory","Both equally","None"], answer:1},
+  {q:"Expiratory wheezing is indicative of:", options:["Upper airway obstruction","Lower airway obstruction","Normal lung","Cardiac problem"], answer:1},
+  {q:"Which type of feeding is associated with a higher risk of complications compared to breast milk in preterm infants?", options:["Breast milk","Donor milk","Artificial formula","Minimal enteral feeding"], answer:2},
+  {q:"A newborn has tachypnea (>60/min) and nasal flaring. What is the grade?", options:["Grade I","Grade II","Grade III","Grade IV"], answer:0},
+  {q:"Which finding is essential for diagnosing Grade II respiratory distress?", options:["Grunting","Subcostal retraction","Cyanosis","Nasal flaring only"], answer:1},
+  {q:"A baby has tachypnea, retractions, and grunting. The baby is pink in room air. What is the grade?", options:["Grade I","Grade II","Grade III","Grade IV"], answer:2},
+  {q:"What sign distinguishes Grade IV from Grade III?", options:["Grunting","Cyanosis on room air","Retractions","Tachypnea"], answer:1},
+  {q:"Grunting in RDS is heard during:", options:["Expiration","Inspiration","Both","None"], answer:0},
+  {q:"Which type of apnea is considered the most common in newborns?", options:["Central apnea","Obstructive apnea","Mixed apnea","Secondary apnea"], answer:2},
+  {q:"Which serum glucose level indicates hypoglycemia in a term neonate?", options:["55 mg/dl","48 mg/dl","40 mg/dl","60 mg/dl"], answer:2},
+  {q:"Hypoglycemia in a preterm neonate is diagnosed when serum glucose level is:", options:["< 40 mg/dl","< 30 mg/dl","< 50 mg/dl","< 45 mg/dl"], answer:1},
+  {q:"The normal plasma glucose level in neonates of normoglycemic mothers is approximately:", options:["90-95 mg/dl","80-85 mg/dl","78-80 mg/dl","75-78 mg/dl"], answer:2},
+  {q:"A newborn is diagnosed with hypoglycemia and needs 5% glucose at a dose of 2 ml per kilogram. If the baby weighs 2.5 kg, how much glucose solution should be given?", options:["3 ml","4 ml","5 ml","6 ml"], answer:2},
+  {q:"Which sleeping position is most strongly associated with Sudden Infant Death Syndrome (SIDS)?", options:["Lateral position","Supine position","Prone position","Semi-fowler position"], answer:2},
+  {q:"What technique using a pacifier can help bring the infant to a quiet alert state before feeding?", options:["Rooting reflex","Breast massage","Nonnutritive sucking (NNS)","Burping the infant"], answer:2},
+  {q:"The breakdown products of the blood in Hutch hematoma can lead to:", options:["Normal brain function","Pathological jaundice","Physiological jaundice","No complications"], answer:1},
+  {q:"Heat loss that results from conversion of liquid on an exposed surface to vapor is called:", options:["Conduction","Radiation","Evaporation","Convection"], answer:2},
+  {q:"Heat loss due to direct contact between the infant's skin and a cold solid object is:", options:["Convection","Conduction","Evaporation","Radiation"], answer:1},
+  {q:"Heat loss that results from exposure of the infant to air currents is:", options:["Radiation","Convection","Conduction","Evaporation"], answer:1},
+  {q:"Keeping the infant away from cold walls or windows prevents which type of heat loss?", options:["Evaporation","Conduction","Radiation","Convection"], answer:2},
+  {q:"Drying the infant immediately after birth mainly prevents:", options:["Conduction","Evaporation","Convection","Radiation"], answer:1},
+  {q:"An infant weighing 500-600 g usually requires an ET tube depth of:", options:["6.5 cm","5.5 cm","7.0 cm","8.0 cm"], answer:1},
+  {q:"The appropriate ET tube depth for a baby weighing 1100-1400 g is:", options:["6.0 cm","6.5 cm","7.0 cm","8.5 cm"], answer:2},
+  {q:"A neonate with gestational age 35-37 weeks typically weighs:", options:["500-600 g","900-1000 g","1900-2400 g","2500-3100 g"], answer:2},
+  {q:"The ET tube depth for a 2500-3100 g newborn is:", options:["7.5 cm","8.0 cm","8.5 cm","9.0 cm"], answer:2},
+  {q:"A baby with GA 38-40 weeks usually requires ET tube depth:", options:["8.5 cm","9.0 cm","7.0 cm","6.5 cm"], answer:1},
+  {q:"KMC is not effective in preventing neonatal hypothermia.", options:["True","False"], answer:1},
+  {q:"The first nursing priority after birth is providing privacy to the mother.", options:["True","False"], answer:1},
+  {q:"Preventing heat loss is the first immediate intervention for a newborn because hypothermia is a leading cause of death.", options:["True","False"], answer:0},
+  {q:"In neonates with RDS, inspiratory crackles may be detected on auscultation.", options:["True","False"], answer:0},
+  {q:"Increasing gestational age is usually associated with increased body weight.", options:["True","False"], answer:0},
+  {q:"A neonate weighing 700-800 g requires ET depth 7.5 cm.", options:["True","False"], answer:1},
+  {q:"Babies 1500-1800 g require ET depth approximately 7.5 cm.", options:["True","False"], answer:0},
+  {q:"ET tube depth for infants 3200-4200 g is around 9 cm.", options:["True","False"], answer:0},
+  {q:"Gestational age 23-24 weeks corresponds to weight 1500-1800 g.", options:["True","False"], answer:1},
+  {q:"Evaporation increases if the infant is wet after birth.", options:["True","False"], answer:0},
+  {q:"Conduction occurs when heat transfers between the baby and cooler objects without direct contact.", options:["True","False"], answer:1},
+  {q:"Convection heat loss increases with drafts and moving air.", options:["True","False"], answer:0},
+  {q:"Radiation requires direct contact between the infant and the heat source.", options:["True","False"], answer:1},
+  {q:"Wrapping the baby prevents evaporative heat loss.", options:["True","False"], answer:0},
+  {q:"The Apgar score is assessed at which times after birth?", options:["At 1 and 2 minutes","At 5 and 10 minutes","At 1 and 5 minutes","Immediately and at 10 minutes"], answer:2},
+  {q:"Which physical finding suggests a preterm infant?", options:["Abundant lanugo","Firm sole creases","Well-developed ear cartilage","Descended testes in males"], answer:0},
+  {q:"Which of the following is considered an abnormal finding in neonates?", options:["Mongolian spots on the buttocks","Milia on the nose","Persistent central cyanosis after 10 minutes of birth","Presence of vernix caseosa"], answer:2},
+  {q:"A healthy newborn's skin is usually:", options:["Pale with central cyanosis","Smooth, pink, with possible acrocyanosis","Yellowish within 12 hours of birth","Always dry and cracked"], answer:1},
+  {q:"The nurse is assessing the reflexes of a newborn. The nurse assesses which of the following reflexes by placing a finger in the newborn's mouth?", options:["Moro reflex","Sucking reflex","Babinski reflex","Rooting reflex"], answer:1},
+  {q:"A neonatal assessment, caput succedaneum is:", options:["A swelling in soft tissues of scalp that crosses suture lines","A swelling soft tissue of scalp that does not cross suture lines","Associated with intracranial bleeding","A normal finding in the abdomen"], answer:0},
+  {q:"Normal newborn temperature range (axillary) is:", options:["35.0-36.0 °C","37.5-38.5 °C","36.5-37.5 °C","34.0-35.0 °C"], answer:2},
+  {q:"The nurse prepares to administer a vitamin K injection to a newborn, and mother asks the nurse why her infant needs the injection. What best response should nurse provide?", options:["Vitamin K will protect your newborn from being jaundiced","Newborns have sterile bowels, and vitamin K promotes growth of bacteria in bowel","Newborn needs vitamin K to develop immunity","Newborns are deficient in vitamin K and this injection prevents newborns from bleeding"], answer:3},
+  {q:"A nurse notes that a 6-hour-old neonate has cyanotic hands and feet. Which of the following action by the nurse is appropriate?", options:["Place baby in isolate","Apply pulse oximeter","Administer oxygen","Swaddle baby in blanket for warming"], answer:3},
+  {q:"Immediately after birth, the nurse prevents hypothermia as a result of evaporation in the preterm babies by doing the following:", options:["Warming the crib pad","Drying the baby with a warm blanket","Closing the doors of the room","Turning on the overhead radiant warmer"], answer:1},
+  {q:"In most preterm infants, the skin barrier properties resemble those of the term infant regardless of gestational age at birth by:", options:["2 to 4 weeks' postnatal age","3 to 5 weeks' postnatal age","Immediate at birth","2 weeks after birth"], answer:0},
+  {q:"Which neonate is at greatest risk for respiratory distress syndrome?", options:["IUGR neonate","Born before 35 weeks","Prolonged rupture of membranes","Born at 38 weeks"], answer:1},
+  {q:"Which newborn finding at 24 hours should be reported immediately?", options:["Jaundice","Heart rate 120/min","Positive grasp reflex","High-pitched cry"], answer:0},
+  {q:"One factor contributing to a high-risk neonate is:", options:["Maternal medical illness","Maternal temperature","Maternal weight","None"], answer:0},
+  {q:"Extremely low birth weight infant weighs:", options:["2700–4000 g","≤2500 g","<1500 g","<1000 g"], answer:3},
+  {q:"When teaching umbilical cord care to a new mother, the nurse would include which information?", options:["Apply peroxide to the cord with each diaper change","Apply alcohol to the cord with each diaper change","Keep the cord dry and open to air","Wash the cord with soap and water each day during a tub bath"], answer:2},
+  {q:"Coordination between sucking and swallowing activities does not occur until approximately:", options:["36 to 37 weeks of gestation","As soon as the newborn sucks","Immediate postnatal","32 to 34 weeks of gestation"], answer:3},
+  {q:"When used by a pacifier, it may help bring the infant to a quiet alert state in preparation for feeding.", options:["NNS (Non-nutritive Sucking)","NEC (Necrotizing Enterocolitis)","TPN (Total Parenteral Nutrition)","None of the above"], answer:0},
+  {q:"Breastfeeding should be started following birth within:", options:["1 hour","3 hours","After doctor order","After 6 hours"], answer:0},
+  {q:"Hemorrhagic disease in neonates is caused by deficiency in:", options:["Vitamin A","Vitamin K","Vitamin D","Vitamin C"], answer:1},
+  {q:"A baby has been admitted to the neonatal intensive care unit with a diagnosis of postmaturity. The nurse expects to find which of the following during the initial newborn assessment?", options:["Abundant lanugo","Prominent clitoris","Flat breast tissue","Wrinkled skin"], answer:3},
+  {q:"When does the sucking reflex in an infant disappear and become voluntary?", options:["2 months","6 months","4 months","12 months"], answer:2},
+  {q:"Thirty seconds after birth, a baby who appears preterm has exhibited no effort to breathe even after being stimulated. The heart rate is assessed at 50 bpm. Which of the following actions should the nurse perform first?", options:["Perform a gestational age assessment","Inflate the lungs with positive pressure","Provide external chest compressions","Assess the oxygen saturation level"], answer:1},
+  {q:"A full-term neonate who is 30 hours old has a bilirubin level of 10 mg/dl. The neonate has a yellowish tint to the skin of the face. The mother is breastfeeding her newborn, nurse caring for this neonate would anticipate which of the following interventions?", options:["Phototherapy","Feeding neonate every 2 to 3 hours","Assess red blood cell count","Switch from breastfeeding to bottle feeding"], answer:1},
+  {q:"A term newborn with clear airways correctly positioned, and heart rate (HR) above 100/min is having labored breathing. Next step in management is:", options:["Start positive pressure ventilation","Start chest compression","Deep pharyngeal suction","Continuous positive airway pressure (CPAP)"], answer:3},
+  {q:"Which of the following signs indicates that the infant is sick?", options:["Preterm delivery","Delivery by Caesarean section","Birth weight of 1500 g","Apnea"], answer:3},
+  {q:"Photo therapy is method for treatment of:", options:["Neonatal jaundice","Hypoxic is chemical encephalopathy","Neonatal sepsis","Infant of diabetic mother"], answer:0},
+  {q:"Which of the following is the most critical physiological need required for the newborn after birth?", options:["Closure of fetal shunts in the heart","Stabilization of body temperature","Stabilization of fluid and electrolytes","Stabilization of breathing"], answer:3},
+  {q:"Oxygen therapy through continuous positive airway pressure is a method that is used for treatment of:", options:["HIE","NJ","RDS","IDM"], answer:2},
+  {q:"When neonate is born with birth weight less than 1000g this is called:", options:["VLBW","ELBW","LBW","AGA"], answer:1},
+  {q:"Exchange transfusion procedure is used in neonates with very high level of:", options:["Glucose","Bilirubin","Creatinine","CO2"], answer:1},
+  {q:"Hypoglycemia is a crucial sign that usually seen in neonates with:", options:["Infant of diabetic mother (IDM)","Neonatal jaundice","RDS","Hypoxia"], answer:0},
+  {q:"The nurse measures the circumference of the neonate's head and chest, then explains to the mother that when the two measurements are compared, the head is normally about:", options:["The same size as the chest","3 cm smaller than the chest","2 cm larger than the chest","4 cm larger than the chest"], answer:2},
+  {q:"The nurse is performing Apgar scoring for a newborn immediately after birth, nurse notes that the heart rate is less than 100, respiratory effort is irregular and muscle tone shows extremity flexion, nurse should document which of the following Apgar scores:", options:["7","5","10","3"], answer:3},
+  {q:"A mother of a term neonate asks what the thick, white, cheesy costing is on his skin, Which correctly describes this finding?", options:["Lanugo","Milia","Vernix Caseosa","None of them"], answer:2},
+  {q:"Keeping preterm neonates in position is preferable to conserve energy and to maintain sense of equilibrium.", options:["Prone","Semi fowler","Supine","Right side"], answer:0},
+  {q:"A neonate with RDS is receiving continuous positive airway pressure (CPAP). What assessment finding indicates a positive response to CPAP therapy?", options:["Decreased oxygen saturation","Presence of grunting during exhalation","Increased retractions and nasal flaring","Improved chest excursion and decreased work of breathing"], answer:3},
+  {q:"...has previously been associated with enteral feedings in acutely ill or distressed infants:", options:["TOF","TTN","NEC","TEF"], answer:2},
+  {q:"...is minimal enteral feeding with as little as 0.1 to 4 ml/kg of breast milk or preterm formula preventing mucosal atrophy and may be table:", options:["NNS","Trophic feeding","Gavage Feeding","Fortified feeding"], answer:1},
+  {q:"A sick infant should be handled as little as possible because:", options:["Excessive handling may cause apnoea","Handling slows an infant's weight gain","Handling may cause bruising","Handling increases the risk of bac infection"], answer:0},
+  {q:"Tactile stimulation is one of the most important methods that can be used in treatment ... in preterm neonates:", options:["PDA","Apnea","TTN","MAS"], answer:1},
+  {q:"The normal plasma glucose in neonates of normoglycemic mothers is approximately...:", options:["70-80mg/dl","30-35mg/dl","70-110mg/dl","40-45mg/dl"], answer:0},
+  {q:"A philosophy of care that requires rethinking the relationships between the infant, family, and healthcare providers in the NICU:", options:["Preterm Care","Developmental Care","Nursing Care in NICU","Family Care"], answer:3},
+  {q:"One of the following source of chronic stress in the neonatal intensive care units:", options:["Pain and stress from diseases","Appropriate handling","Appropriate positioning","Little level of noise and light"], answer:0},
+  {q:"The American Academy of Pediatrics (AAP) recommends that noise levels should not exceed in NICU:", options:["40-45 dB","80-120 dB","30-35 dB","100-120 dB"], answer:0},
+  {q:"The most appropriate position for preterm infants:", options:["Prone positioning","Supine position","Side left lying positioning","Semi-fowler position"], answer:0},
+  {q:"Co-bedding means the practice of placing medically stable twins, and higher-order multiples together in the same warmer or incubator.", options:["Cobedding of multiples","Containment","Handling","Positioning"], answer:0},
+  {q:"No food or fluids given for infant who breast feed for 6 months of age is known as:", options:["Exclusive breastfeeding","Complementary feeding","Supportive feeding","Substitutive feeding"], answer:0},
+  {q:"One of the following adverse consequences of bright light:", options:["Oxygen desaturation","Decreased incidence of","Developing optic structures","Improved sleep patterns"], answer:2},
+  {q:"Positioning disorders of preterm infants can caused by:", options:["Neuromuscular immaturity","The effects of gravity on the prese","weak muscle tone","All of the above"], answer:3},
+  {q:"Position keep hands near the mouth to provide the infant with midline orientat facilitate hand to mouth activities:", options:["Nesting position","Supine position","Roll out position","Prone position"], answer:0}
+];
+
+const bloodQuestions = [
+  {q:"What is the process called that involves the development of blood cells and other formed elements, with changing sites throughout development?", options:["Hematopoiesis","Hemostasis","Erythroblastosis","Leukocytosis"], answer:0},
+  {q:"It is genetically inherited disorder (autosomal recessive) characterized by replacement of normal adult hemoglobin (HbA) with abnormal hemoglobin (HbS), leading to chronic hemolytic anemia due to premature destruction of abnormally shaped RBCs:", options:["Thalassemia major","Iron deficiency anemia","Sickle cell anemia","Aplastic anemia"], answer:2},
+  {q:"What is the primary pathophysiological problem in sickle cell anemia?", options:["Excessive production of red blood cells","Destruction of red blood cells due to abnormal hemoglobin S","Iron accumulation in the liver","Vitamin B12 deficiency"], answer:1},
+  {q:"A sickle cell crisis is a sudden, painful episode that occurs in individuals with sickle cell disease.", options:["Hemophilia bleeding episode","Aplastic anemia","Sickle cell crisis","Iron overload crisis"], answer:2},
+  {q:"What is the most common type of sickle cell crisis experienced by patients with sickle cell disease?", options:["Aplastic crisis","Sequestration crisis","Hyperhemolytic crisis","Vaso-occlusive crisis"], answer:3},
+  {q:"Which type of sickle cell crisis is considered the most life-threatening in infants with sickle cell disease?", options:["Aplastic crisis","Hyperhemolytic crisis","Vaso-occlusive crisis","Splenic sequestration crisis"], answer:3},
+  {q:"Which of the following factors is most likely to increase the risk of a sickle cell crisis in a patient with sickle cell disease?", options:["Warm weather and hydration","Exposure to cold weather and physical exertion","Adequate rest and stress reduction","Low altitudes and oxygen therapy"], answer:1},
+  {q:"Dactylitis (painful swelling of hands and feet) is a common early manifestation of sickle cell disease. It most commonly occurs at which of the following age ranges?", options:["Birth to 3 months","3 to 6 months","6 months to 2 years","5 to 10 years"], answer:2},
+  {q:"A sudden halt in RBC production leading to severe anemia, pallor, fatigue, and low reticulocyte count is called:", options:["Dactylitis","Vaso-occlusive crisis","Splenic sequestration","Aplastic crisis"], answer:3},
+  {q:"Which of the following is the most appropriate nursing intervention to help prevent sickling episodes in a child with sickle cell disease?", options:["Encourage fluid intake of at least 150 ml/kg/day","Limit oxygen administration to prevent dependency","Promote physical activity in hot environments","Restrict fluid intake to reduce cardiac workload"], answer:0},
+  {q:"Which of the following is a priority intervention in the management of a child with splenic sequestration crisis and hemoglobin <5 g/dL?", options:["Administer morphine for pain relief","Start 10 ml/kg packed red blood cell transfusion","Elevate the legs to reduce pooling of blood","Apply cold compresses to the abdomen"], answer:1},
+  {q:"In managing splenic sequestration crisis in children, why is 0.9% normal saline administered?", options:["To treat hypervolemia and support circulation","To treat hypovolemia and increase vascular resistance","To reduce hemolysis and correct hypoxia","To promote sedation and pain relief"], answer:1},
+  {q:"Which of the following is part of the symptomatic treatment for vaso-occlusive crisis in children with sickle cell disease?", options:["Cold compresses and limb immobilization","Administering antibiotics to prevent splenic rupture","Hydration with 0.9% saline bolus followed by maintenance fluids","Transfusion of 10 ml/kg packed red cells for hemoglobin >12 g/dL"], answer:2},
+  {q:"Which of the following is considered a new treatment modality for sickle cell anemia?", options:["Bone marrow transplantation and gene therapy","Regular hydration and analgesic therapy","Monthly blood transfusions","Oxygen therapy and antibiotic prophylaxis"], answer:0},
+  {q:"Which of the following is the most common form of thalassemia worldwide?", options:["B-Thalassemia Major (Cooley's Anemia)","A-Thalassemia Minor","A-Thalassemia Major","B-Thalassemia Minor"], answer:0},
+  {q:"Which of the following is a clinical manifestation of anemia commonly seen in B-Thalassemia Major?", options:["Hypertension","Poor feeding and enlarged spleen","Hyperactivity and weight gain","Bradycardia and cyanosis"], answer:1},
+  {q:"Which of the following symptoms is most likely associated with progressive anemia and tissue hypoxia in B-Thalassemia Major?", options:["High fever and jaundice","Epistaxis and hemosiderosis","Cough and shortness of breath","Bone pain & decreased exercise tolerance"], answer:3},
+  {q:"Which skeletal abnormality is characteristic of untreated older children with B-Thalassemia Major?", options:["Short limbs and scoliosis","Depressed nasal bridge and maxillary enlargement","Clubbing and chest retraction","Bowing of the legs and wrist swelling"], answer:1},
+  {q:"What is the primary goal of supportive (chelation) therapy in the management of B-Thalassemia Major?", options:["To cure the genetic disorder","To prevent iron absorption from the diet","To maintain hemoglobin levels and prevent tissue hypoxia","To eliminate the need for blood transfusions"], answer:2},
+  {q:"Which of the following organs is the most intolerant to excessive iron deposition in patients with B-Thalassemia Major?", options:["Liver","Spleen","Heart","Pancreas"], answer:2},
+  {q:"What is the term for the deposition of excess iron in tissues that leads to tissue damage?", options:["Hemosiderosis","Hemochromatosis","Hemophilia","Thrombocytosis"], answer:1},
+  {q:"What is the term for the deposition of excess iron in tissues without causing tissue damage?", options:["Hemochromatosis","Anisocytosis","Leukocytosis","Hemosiderosis"], answer:3},
+  {q:"What is the most common cause of death in patients with B-Thalassemia Major?", options:["Liver failure","Heart failure due to iron overload","Stroke","Kidney failure"], answer:1},
+  {q:"What is the gold standard investigation for diagnosing sickle cell anemia and B-Thalassemia?", options:["Complete blood count (CBC)","Peripheral blood smear","Hemoglobin electrophoresis","Serum ferritin level"], answer:2},
+  {q:"Which of the following best describes Hemophilia (Classic Hemophilia)?", options:["An autosomal dominant disorder caused by factor VII deficiency","Congenital bleeding disorder caused by factor VIII deficiency, inherited as sex-linked recessive trait","A disorder of platelet function leading to excessive clotting","A clotting disorder related to vitamin K deficiency"], answer:1},
+  {q:"Which of the following is the characteristic bleeding tendency for severe hemophilia?", options:["Spontaneous bleeding without trauma","No bleeding tendency","Bleeding only with severe trauma or surgery","Bleeding with minor trauma"], answer:0},
+  {q:"In moderate hemophilia, the bleeding tendency is most commonly observed:", options:["With severe trauma or surgery","Spontaneously without any trauma","Bleeding with any trauma","Only after major surgery"], answer:2},
+  {q:"What is the factor VIII activity level and bleeding tendency in mild hemophilia?", options:["Factor VIII activity 1%-5%, bleeding with trauma","Factor VIII activity 1%, spontaneous bleeding without trauma","Factor VIII activity above 50%, no bleeding tendency","Factor VIII activity 5%-50%, bleeding with severe trauma or surgery"], answer:3},
+  {q:"What is Hemarthrosis, a common complication in patients with hemophilia?", options:["Bleeding into the abdominal cavity causing ascites","Bleeding into joint cavities, especially knees, elbows, and ankles, and is caused by limping fibrous ankylosis of joints","Bleeding under the skin causing petechiae","Bleeding in the brain causing seizures"], answer:1},
+  {q:"What is the most fatal (life-threatening) manifestation of hemophilia?", options:["Intracranial hemorrhage","Epistaxis","Hemarthrosis","Gastrointestinal bleeding"], answer:0},
+  {q:"Which of the following is a serious complication of hemophilia that may lead to death?", options:["Intracranial bleeding and airway obstruction","Increased red blood cell production","Muscle cramps and dehydration","Chronic cough and fever"], answer:0},
+  {q:"Partial Thromboplastin Time (PTT) is prolonged in patients with hemophilia.", options:["True","False"], answer:0},
+  {q:"Prothrombin Time (PT) and Bleeding Time are usually normal in hemophilia.", options:["True","False"], answer:0},
+  {q:"What is the primary therapy for managing hemophilia?", options:["Iron supplementation","Antibiotic therapy","Replacement of missing clotting factor","Platelet transfusion"], answer:2},
+  {q:"One of the most life-threatening crises in sickle cell anemia is:", options:["Aplastic crisis","Splenic sequestration crisis","Vaso-occlusive crisis","Hyper-hemolytic crisis"], answer:1},
+  {q:"The hematology nurse instructs parents of a child with sickle cell anemia about the precipitating factors of sickle cell crisis, which include the following except:", options:["Fluid overload","Infection","Stress","Hypoxia"], answer:0},
+  {q:"A child with B-thalassemia usually suffering from excess iron deposition in the tissues associated with tissue damage, that is called:", options:["Hemosidrosis","Hemoglobinopathy","Hematopoiesis","Hemochromatosis"], answer:3},
+  {q:"Ahmed, 12 years old, admitted to emergency department with sickle cell crisis. Your intervention will be:", options:["Giving blood transfusion","Giving antibiotics & analgesics","Prepare for splenectomy","Increase fluid intake & give analgesics"], answer:3},
+  {q:"The primary nursing objective in caring for a child with sickle cell anemia in Vaso-occlusive crisis?", options:["Providing a cool environment","Managing pain","Restricting fluids","Immobilizing the affected part"], answer:1},
+  {q:"Ali, 10 years old, with history of hemophilia. Which of the following leisure activities is recommended for Ali?", options:["Baseball","Football","Cross-country running","Swimming"], answer:3},
+  {q:"Samy is 9 years old diagnosed with hemophilia & brought to emergency department after being hit on the neck with a baseball. The focus of immediate assessment will be:", options:["Airway obstruction","Factor VIII deficiency","Spontaneous hematuria","Headache & slurred speech"], answer:0},
+  {q:"Which of the following types of anemia is caused by congenital defect of hemoglobin synthesis?", options:["Iron deficiency anemia","Pernicious anemia","Hemolytic","Thalassemia major 'Cooley's anemia'"], answer:3},
+  {q:"Children with sickle cell anemia have increased hemoglobin S:", options:["True","False"], answer:0},
+  {q:"Which of the following drugs is given for thalassemic children as iron chelating agent to reduce the toxic effect of increased iron level in the blood?", options:["Lasix","Deferoxamine (Desferal)","Hydrocortisone","Diclofen sodium"], answer:1},
+  {q:"The nurse is teaching the parents of a child with hemophilia regarding bleeding episodes. The nurse should emphasize that the greatest danger from bleeding is due to:", options:["Bleeding into the joints","Cutaneous bleeding","Bleeding into the oral cavity","Intracranial bleeding"], answer:3},
+  {q:"The therapeutic management of children with B-thalassemia major consists primarily of which of the following?", options:["Oxygen therapy","Supplemental iron","Adequate hydration","Frequent blood transfusions"], answer:3},
+  {q:"A 12-year-old child with newly diagnosed thalassemia is brought to clinic exhibiting delayed sexual maturation, fatigue, anorexia, pallor, and complaints of headache. She seems listless and small for her age and has frontal bossing. What should the nurse expect to note on review of the results of the laboratory tests?", options:["Macrocytosis and hyperchromia","Excessive red blood cell production","Excessive mature erythrocyte proliferation","Deficient production of functional hemoglobin"], answer:3},
+  {q:"It is considered a cause for excessive hemolysis leading to pathological:", options:["ABO grouping","Decreased feeding","Caput succedaneum","Mild cephalo-hematoma"], answer:0},
+  {q:"Iron deficiency anemia is caused by an inadequate supply or loss of iron and is most prevalent in children of age:", options:["2-6 months","6-24 months","2-4 years","4-6 years"], answer:1},
+  {q:"Iron deficiency anemia in children occurs due to many causes as:", options:["Deficient iron intake","Impaired absorption of iron","Blood loss","All of the above"], answer:3},
+  {q:"It is one of the commonest congenital coagulation disorders due to deficiency or functional abnormality of factor... demonstrated as a sex-linked recessive trait.", options:["Von Willebrand disease – VII","Hemophilia A – VIII","Hemophilia B – IX","Hemophilia C – XI"], answer:1},
+  {q:"Vaso-occlusive crises can result in a variety of skeletal problems. One of the more frequent is... which occurs primarily in young children ages 6 months to 2 years.", options:["Osteoporosis","Bone marrow hyperplasia","Hand-foot syndrome","Kyphosis"], answer:2},
+  {q:"For confirmation of a child's diagnosis with thalassemia, we should perform:", options:["Rapid fluorescent spot test","Complete blood count","Hemoglobin electrophoresis","Clotting factors assay"], answer:2},
+  {q:"Case: Sara is a 1-year-old infant admitted to the hematology unit with low-grade fever, swelling of the soft tissue over the hands and feet with severe pain. She was diagnosed with sickle cell anemia. Expected crisis Sara is exposed to:", options:["Vaso-occlusive crisis (dactylitis, Hand-Foot Syndrome)","Aplastic crisis","Splenic sequestration","Hyper-hemolytic crisis"], answer:0},
+  {q:"Most common triggers of crises in children with sickle cell anemia:", options:["Dehydration, Infection, Hypoxia, Acidosis","High fever","Excessive iron","Vitamin deficiency"], answer:0},
+  {q:"Nursing interventions needed for sickle cell crisis:", options:["Analgesics, Hydration, Warm compresses","Cold compresses","Restrict fluids","Bed rest only"], answer:0}
+];
+
+const communicableQuestions = [
+  {q:"Which of the following defines immunity correctly?", options:["A state where an individual is always sick","A state where an individual is resistant to a specific agent","A state where antibodies are never produced","A state caused only by vaccination"], answer:1},
+  {q:"Active immunity is:", options:["Antibodies obtained from others","Antibodies produced by the body itself","Only temporary","Only through breast milk"], answer:1},
+  {q:"Passive immunity can be acquired:", options:["Only naturally through mother","Only by vaccination","Only after sickness","Only lifelong"], answer:0},
+  {q:"Natural active immunity occurs when:", options:["Antibodies are produced after recovery from sickness","Antibodies are obtained from injection","Antibodies are transferred from mother","No antibodies are formed"], answer:0},
+  {q:"Artificial passive immunity means:", options:["Antibodies obtained through injection of serum","Antibodies produced after infection","Antibodies transferred through placenta","Immunity without antibodies"], answer:0},
+  {q:"The incubation period of Chickenpox (Varicella) is usually:", options:["1-3 days","5-7 days","14-16 days","20-25 days"], answer:2},
+  {q:"The period of communicability for Chickenpox is:", options:["1 day before to 6 days after rash appears","Only after rash disappears","Only during fever","2-3 weeks"], answer:0},
+  {q:"The primary source of varicella infection is:", options:["Urine of infected person","Primary secretions of respiratory tract & skin lesions","Blood only","Contaminated food"], answer:1},
+  {q:"Which of the following is a mode of transmission of Chickenpox?", options:["Droplet spread","Only sexual contact","Only contaminated food","None of the above"], answer:0},
+  {q:"Specific treatment for varicella includes:", options:["Antihistamines","Cyclovir (Zovirax)","Antibiotics","Aspirin"], answer:1},
+  {q:"The incubation period of Measles (Rubeola) is:", options:["2-5 days","10-20 days","21-28 days","1-3 days"], answer:1},
+  {q:"Measles is transmitted mainly through:", options:["Contaminated food","Direct contact with droplets","Blood transfusion","Insect bites"], answer:1},
+  {q:"Koplik spots appear during which stage of Measles?", options:["Rash stage","Prodromal stage","Recovery stage","Communicability period"], answer:1},
+  {q:"The Measles rash usually appears:", options:["On the chest first","On the face first","On the arms first","On the legs first"], answer:1},
+  {q:"Therapeutic management of Rubella is not:", options:["Antibiotics","Immunization","Equine antitoxin","Aspirin"], answer:3},
+  {q:"Which of the following aren't sources and modes of transmission of Pertussis?", options:["Discharge from respiratory tract of infected persons","Droplet spread","Direct contact","Contaminated food"], answer:3},
+  {q:"Which of the following aren't clinical manifestations during Catarrhal stage?", options:["Coryza","Sneezing","Lacrimation (tearing)","Rash"], answer:3},
+  {q:"Which of the following aren't clinical manifestations during Paroxysmal stage?", options:["Short, rapid coughs","Cheeks flushed or cyanotic","Eyes bulge and tongue protrudes","Diarrhea"], answer:3},
+  {q:"Which of the following aren't complications of Pertussis?", options:["Pneumonia","Otitis media","Weight loss & dehydration","Diabetes"], answer:3},
+  {q:"Which of the following are not therapeutic management strategies for Pertussis?", options:["Immunization","Antimicrobial therapy","Oxygen and humidity","Aspirin"], answer:3},
+  {q:"Antibody is a protein formed in response to a specific antigen.", options:["True","False"], answer:0},
+  {q:"Communicable disease cannot be transmitted through indirect contact.", options:["True","False"], answer:1},
+  {q:"Skin lesions of Chickenpox are non-infectious.", options:["True","False"], answer:1},
+  {q:"Aspirin should be avoided in children with Chickenpox.", options:["True","False"], answer:0},
+  {q:"Immunization is a preventive measure for Chickenpox.", options:["True","False"], answer:0},
+  {q:"Vitamin A can be used as part of Measles treatment.", options:["True","False"], answer:0},
+  {q:"Complications of Measles may include otitis media, pneumonia, and obstructive laryngitis.", options:["True","False"], answer:0},
+  {q:"Nursing care for a child with Measles includes encouraging activity and play during prodromal stage.", options:["True","False"], answer:1},
+  {q:"Eye care in Measles includes cleaning eyelids with warm saline solution.", options:["True","False"], answer:0},
+  {q:"Isolation is required for children with Rubella.", options:["True","False"], answer:0},
+  {q:"Hospitalization may be required for infants with dehydration or complications of Pertussis.", options:["True","False"], answer:0},
+  {q:"Positioning the infant on the side helps decrease aspiration during vomiting.", options:["True","False"], answer:0},
+  {q:"Nasopharyngeal culture is important for diagnosis of Pertussis.", options:["True","False"], answer:0},
+  {q:"Antibiotic therapy should only be given to the sick child, not to household contacts.", options:["True","False"], answer:1},
+  {q:"Pertussis booster (Tdap) is part of preventive care.", options:["True","False"], answer:0},
+  {q:"Prodromal stage absent in children, present in adults and adolescents in:", options:["Chicken pox","Measles","Rubella","Rubeola"], answer:2},
+  {q:"Rash first appears on face and rapidly spreads downward to neck, arms, trunk & legs in:", options:["Chicken pox","Rubella","Measles","Mumps"], answer:1},
+  {q:"Incubation period for Diphtheria is:", options:["From 2-4 day","From 2-5 days","From 2-7 days","From 2-8 days"], answer:1},
+  {q:"Rash highly pruritic begins as macule, rapidly progresses to papule and then vesicle in:", options:["Chicken pox","Rubella","Measles","Rubeola"], answer:0},
+  {q:"Rash fade on pressure and disappears in same order as it began and is usually gone by third day more common in:", options:["Chicken pox","Rubella","Measles","Rubeola"], answer:1},
+  {q:"Which of the following type of vaccine given during the first 24 hours:", options:["Hepatitis","DPT","BCG","Typhoid"], answer:0},
+  {q:"Disease caused by discharges from mucous membranes of nose and nasopharynx, skin, and other lesions of infected person:", options:["Measles","German Measles","Diphtheria","Typhoid"], answer:2},
+  {q:"Foreign proteins, that stimulate the formation of antibodies:", options:["Antigen","Antibiotic","Antibodies","Anti dot"], answer:0},
+  {q:"Antibodies produced after recovery from sickness:", options:["Natural active immunity","Natural passive immunity","Artificial active immunity","Artificial passive immunity"], answer:0},
+  {q:"Antibodies contained from mother to baby from breast milk or placenta:", options:["Natural active immunity","Natural passive immunity","Artificial active immunity","Artificial passive immunity"], answer:1},
+  {q:"It is the time that elapses between the invasion of microorganism and the appearance of signs and symptoms of the disease:", options:["Communicability period","Invasion period","Incubation period","Transmission period"], answer:2},
+  {q:"Small, irregular red spots with a minute, bluish-white center first seen on buccal mucosa opposite molars 2 days before rash:", options:["Koplik spots","Red bluish spots","Red marks","Coryza"], answer:0},
+  {q:"The most important vitamin in treatment of measles:", options:["Vitamin A","Vitamin B","Vitamin C","Vitamin D"], answer:0},
+  {q:"The most common communicable disease caused by bacteria:", options:["Chicken pox","Rubella","Diphtheria","Rubeola"], answer:2},
+  {q:"The nurse provides home care instruction to the mother of child with chicken pox about preventing the transmission of the virus, which instruction should nurse include:", options:["Isolate the child until the skin vesicles have dried and crusted","Ensure that the child uses the for elimination","Bring all household members to the clinic immediately for varicella vaccine","Ask the health care provider for prescription for antibiotic all household members"], answer:0},
+  {q:"Disease transmitted from reservoir to susceptible host is:", options:["Contagious disease","Communicable disease","Chronic disease","Iatrogenic disease"], answer:1}
+];
+
+// ========== المتغيرات ==========
+let currentQuiz = [];
+let currentLecture = '';
+let correctCount = 0;
+let wrongCount = 0;
+let answeredCount = 0;
+const lectureNames = ["High Risk Neonate","Blood Disorder in Children","Communicable Disease"];
+
+// ========== التنقل بين الصفحات ==========
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+  window.scrollTo({top: 0, left: 0, behavior: 'instant'});
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+
+function goToLectures() {
+  showPage('lecturesPage');
+}
+
+function goBack() {
+  showPage('lecturesPage');
+}
+
+// ========== بدء الاختبار ==========
+function startQuiz(index) {
+  currentLecture = lectureNames[index];
+  if (index === 0) currentQuiz = [...highRiskQuestions];
+  else if (index === 1) currentQuiz = [...bloodQuestions];
+  else currentQuiz = [...communicableQuestions];
+  
+  correctCount = 0; wrongCount = 0; answeredCount = 0;
+  
+  document.getElementById('quizTitle').textContent = '📖 ' + currentLecture;
+  updateStats();
+  renderQuestions();
+  document.getElementById('resultsBtn').style.display = 'none';
+  showPage('quizPage');
+}
+
+function updateStats() {
+  document.getElementById('statRemaining').textContent = currentQuiz.length - answeredCount;
+  document.getElementById('statCorrect').textContent = correctCount;
+  document.getElementById('statWrong').textContent = wrongCount;
+}
+
+function renderQuestions() {
+  const container = document.getElementById('questionsContainer');
+  container.innerHTML = '';
+  
+  currentQuiz.forEach((q, idx) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    card.id = 'qcard-' + idx;
+    
+    let optionsHTML = '';
+    q.options.forEach((opt, optIdx) => {
+      optionsHTML += `<li class="option" data-q="${idx}" data-opt="${optIdx}" onclick="selectAnswer(${idx},${optIdx})">${String.fromCharCode(65+optIdx)}. ${opt}</li>`;
+    });
+    
+    card.innerHTML = `
+      <div><span class="q-number">${idx+1}</span><span class="q-text">${q.q}</span></div>
+      <ul class="options-list">${optionsHTML}</ul>
+    `;
+    container.appendChild(card);
+  });
+}
+
+// ========== اختيار الإجابة ==========
+function selectAnswer(qIdx, optIdx) {
+  const q = currentQuiz[qIdx];
+  const card = document.getElementById('qcard-' + qIdx);
+  const options = card.querySelectorAll('.option');
+  
+  if (card.classList.contains('answered-correct') || card.classList.contains('answered-wrong')) return;
+  
+  const isCorrect = (optIdx === q.answer);
+  
+  options.forEach(opt => {
+    opt.classList.add('disabled');
+    const oi = parseInt(opt.getAttribute('data-opt'));
+    if (oi === q.answer) opt.classList.add('correct');
+  });
+  
+  if (isCorrect) {
+    correctCount++;
+    card.classList.add('answered-correct');
+    triggerCelebration();
+  } else {
+    wrongCount++;
+    card.classList.add('answered-wrong');
+    options[optIdx].classList.add('wrong');
+    card.classList.add('shake');
+    setTimeout(() => card.classList.remove('shake'), 500);
+  }
+  
+  answeredCount++;
+  updateStats();
+  
+  if (answeredCount === currentQuiz.length) {
+    document.getElementById('resultsBtn').style.display = 'block';
+    setTimeout(() => {
+      document.getElementById('resultsBtn').scrollIntoView({behavior:'smooth', block:'center'});
+    }, 400);
+  }
+}
+
+// ========== الاحتفال ==========
+function triggerCelebration() {
+  const container = document.getElementById('celebration');
+  const symbols = ['🌸','⭐','🦋'];
+  const columns = 6;
+  const rows = 4;
+  const total = columns * rows;
+  const vw = window.innerWidth;
+  const spacingX = vw / columns;
+  
+  for (let i = 0; i < total; i++) {
+    const el = document.createElement('div');
+    el.className = 'celebration-item';
+    el.textContent = symbols[i % 3];
+    
+    const col = i % columns;
+    const row = Math.floor(i / columns);
+    const startX = (col * spacingX) + (spacingX/2) - 14;
+    const startY = -50 - (row * 20);
+    const delay = (row * 0.15) + (col * 0.05);
+    
+    el.style.left = startX + 'px';
+    el.style.top = startY + 'px';
+    el.style.animationDelay = delay + 's';
+    el.style.fontSize = '28px';
+    
+    container.appendChild(el);
+    
+    setTimeout(() => el.remove(), 4000);
+  }
+}
+
+// ========== النتائج ==========
+function showResults() {
+  const total = currentQuiz.length;
+  const percent = Math.round((correctCount / total) * 100);
+  
+  document.getElementById('resTotal').textContent = total;
+  document.getElementById('resCorrect').textContent = correctCount;
+  document.getElementById('resWrong').textContent = wrongCount;
+  document.getElementById('resPercent').textContent = percent + '%';
+  document.getElementById('resultsScore').textContent = percent + '%';
+  
+  document.getElementById('resultsCircle').style.setProperty('--p', percent + '%');
+  
+  let msg = '';
+  if (percent >= 90) {
+    msg = '🏆 ممتاز  ! أداء رائع جداً، استمر على هذا التميز!';
+  } else if (percent >= 75) {
+    msg = '🌟 جيد جداً! أنت في الطريق الصحيح، راجع الأخطاء  .';
+  } else if (percent >= 60) {
+    msg = '📚 جيد، لكن تحتاج لمراجعة المحاضرة مرة أخرى لترسيخ المعلومات.';
+  } else if (percent >= 50) {
+    msg = '💪 لا بأس، راجع المحاضرة بتركيز وحاول مرة أخرى،   .';
+  } else {
+    msg = '📖 لا تيأس! راجع المحاضرة جيداً وأعد المحاولة،    .';
+  }
+  document.getElementById('resultsMessage').textContent = msg;
+  
+  showPage('resultsPage');
+}
+
+// ========== تهيئة الترحيب ==========
+function initWelcome() {
+  const starsBg = document.getElementById('starsBg');
+  for (let i = 0; i < 50; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.animationDelay = Math.random() * 3 + 's';
+    star.style.animationDuration = (2 + Math.random() * 3) + 's';
+    starsBg.appendChild(star);
+  }
+  
+  const rays = document.getElementById('lightRays');
+  for (let i = 0; i < 12; i++) {
+    const ray = document.createElement('div');
+    ray.className = 'ray';
+    ray.style.transform = `rotate(${i * 30}deg)`;
+    ray.style.animationDelay = (i * 0.1) + 's';
+    rays.appendChild(ray);
+  }
+}
+
+initWelcome();
+</script>
+</body>
+</html>
